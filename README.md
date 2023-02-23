@@ -36,11 +36,12 @@ One of the main things to know is **Hooking**
 You need it to Hook into game functions and do stuff to game.
 
 4D Modding framework uses [MinHook library](https://github.com/TsudaKageyu/minhook "MinHook library") for hooking.
+To be exact, it uses [MultiHook](https://github.com/m417z/minhook "MultiHook") branch.
 
 In `Main_Thread` function there is already basic example of hooking.
 For example: Hooking `Player::update()` function
 ```cpp
-MH_CreateHook(reinterpret_cast<void*>(base + idaOffsetFix(0x7EB40)), reinterpret_cast<void*>(&Player_update_H), reinterpret_cast<void**>(&Player_update));
+Hook(reinterpret_cast<void*>(base + idaOffsetFix(0x7EB40)), reinterpret_cast<void*>(&Player_update_H), reinterpret_cast<void**>(&Player_update));
 ```
 Lets look at arguments..
 
