@@ -22,8 +22,6 @@ There you can find some basic defines at start of file.
 ```cpp
 //#define DEBUG_CONSOLE // Define that if you want debug console
 
-#define GLEW_STATIC // DO NOT REMOVE THIS OR ELSE GLEW WILL NOT WORK
-
 // Mod Name. Make sure its same as mod's folder name
 #define MOD_NAME "4DMod"
 #define MOD_VER "1.0"
