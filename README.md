@@ -1,5 +1,5 @@
 # 4D Modding: Basic Tutorials
-This is tutorials for modding 4D Miner with 4D Modding framework
+This is a tutorial for modding 4D Miner with the 4D Modding framework.
 
 ------------
 
@@ -13,45 +13,42 @@ This is tutorials for modding 4D Miner with 4D Modding framework
 
 ### Basic Tutorial:
 
-#### # Making mod project:
-First, Clone [4DMod-Example](https://github.com/Tr1NgleDev/4dmod-example "4DMod-Example") project. (I recomend using Visual Studio 2022)
+#### Making a Mod Project:
 
-Then in the project you open `main.cpp`
+First, clone the [4DMod-Example](https://github.com/Tr1NgleDev/4dmod-example "4DMod-Example") project (I recommend using Visual Studio 2022).
 
-There you can find some basic defines at start of file.
+Then, open `main.cpp`, where you can find some basic defines at start of the file.
 ```cpp
-//#define DEBUG_CONSOLE // Define that if you want debug console
+//#define DEBUG_CONSOLE // uncomment this if you want a debug console
 
-// Mod Name. Make sure its same as mod's folder name
+// Mod Name. Make sure it matches the mod folder's name
 #define MOD_NAME "4DMod"
 #define MOD_VER "1.0"
 ```
-If you want to have debug console window to use `std::cout` or `printf`, you should define `DEBUG_CONSOLE`. Make sure to comment it before sharing the mod.
+If you want to have a debug console window to use `std::cout` or `printf`, you need to define `DEBUG_CONSOLE`. Make sure to comment it out before sharing the mod.
 
-You can also see `MOD_NAME` and `MOD_VER` defines. They are used for 4DModding-Core to load mod and show it on list. You are supposed to change these defines to your mod name and version. Also when sharing and using the mod, mod folder is supposed to have the same name as `MOD_NAME` for the mod to work correctly.
+You can also see the `MOD_NAME` and `MOD_VER` defines. They are used by 4DModding-Core to load a mod and show it on the mod list. You need to change these defines to *your own* mod name and version. Additionally, when sharing and using the mod, the mod folder's name needs to match `MOD_NAME` in order for the mod to work correctly.
 
-### # Basics (Hooking):
-One of the main things to know is **Hooking**
+### Basics (Hooking):
 
-You need it to Hook into game functions and do stuff to game.
+One of the most important concepts to understand is **Hooking**, which is necessary to **hook** into game functions in order to modify the game.
 
-4D Modding framework uses [MinHook library](https://github.com/TsudaKageyu/minhook "MinHook library") for hooking.
-To be exact, it uses [MultiHook](https://github.com/m417z/minhook "MultiHook") branch.
+The 4D Modding framework uses the [MinHook library](https://github.com/TsudaKageyu/minhook "MinHook library") for hooking.
+To be exact, it uses the [MultiHook](https://github.com/m417z/minhook "MultiHook") branch.
 
-In `Main_Thread` function there is already basic example of hooking.
-For example: Hooking `Player::update()` function
+In the `Main_Thread` function there is already a basic example of hooking. For example, hooking the `Player::update()` function:
 ```cpp
 Hook(reinterpret_cast<void*>(base + idaOffsetFix(0x7EB40)), reinterpret_cast<void*>(&Player_update_H), reinterpret_cast<void**>(&Player_update));
 ```
-Lets look at arguments..
+Lets look at the arguments...
 
-First argument is **address/offset** to function in the game (or `target`). There will me more info about **offsets** later. It uses `target` to replace it with our custom "`detour`" function.
+The first argument is the **address/offset** of the function in the game (or `target`). More info about **offsets** can be found [below](#obtaining-a-function-offset). The `target` argument is used to replace the function with our custom "`detour`" function, which is provided by the next argument.
 
-Which is the next argument. **Hook Function** (or `detour`). Its a pointer to our custom function with our own code. This function supposed to have same arguments as the original game function.
+The second argument is the **Hook Function** (or `detour`). It's a pointer to our custom function with *our own* code. This function supposed to have the same arguments as the original game function.
 
-Last argument is **Original Function** (or `original`). Its basically just a pointer to original game function that we replaced with `detour`. You can use it inside of the custom function to call original function after or before your code.
+The last argument is the **Original Function** (or `original`). It's basically just a pointer to the original game function that we are replacing with `detour`. You can use it inside of the custom function to call original function before or after your own code.
 
-Example of `detour` and `original` functions:
+Here is an example of `detour` and `original` functions:
 ```cpp
 // original function
 void(__thiscall* Player_update)(Player* self, GLFWwindow* window, World* world, double dt); 
@@ -68,15 +65,17 @@ void __fastcall Player_update_H(Player* self, GLFWwindow* window, World* world, 
 
 ----
 
-You probably remember `target` argument which is address/offset to a function in game, right?
+### Obtaining a Function Offset
 
-So... How do you get one?
+You probably remember the `target` argument, which is the address/offset of a function in the game, right?
 
-Well first of all you are able to go into `4dm.h` headers and find offset you need. Which is the easiest way.
+So... how do you get one?
 
-But what if there isnt one? (since 4dm.h is still in development and doesnt have everything)
+Well first of all, you can to go into the `4dm.h` headers and find the offset you need, which is the easiest way.
 
-Then you need to use some kind of RE (Reverse Engineering) tool.
+But what if the offset isn't there? (since 4dm.h is still in development and doesnt have everything)
+
+In that case, you need to use some kind of RE (Reverse Engineering) tool.
 
 For example: 
  - [IDA Pro](https://hex-rays.com/ida-pro/ "IDA Pro"). It isnt free. ~~But you can easily pirate it :trollface:~~
@@ -85,7 +84,7 @@ For example:
 
  - [Ghidra](https://github.com/NationalSecurityAgency/ghidra "Ghidra") which is free.
 
-Im not going to tell **how** to do this stuff. If you want, just google it lol.
+Im not going to explain **how** to do this stuff. If you want, just google it lol.
 
 ----
 
