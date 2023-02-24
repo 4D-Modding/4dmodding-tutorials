@@ -40,7 +40,7 @@ In the `Main_Thread` function there is already a basic example of hooking. For e
 ```cpp
 Hook(reinterpret_cast<void*>(base + idaOffsetFix(0x7EB40)), reinterpret_cast<void*>(&Player_update_H), reinterpret_cast<void**>(&Player_update));
 ```
-Lets look at the arguments...
+Let's look at the arguments...
 
 The first argument is the **address/offset** of the function in the game (or `target`). More info about **offsets** can be found [below](#obtaining-a-function-offset). The `target` argument is used to replace the function with our custom "`detour`" function, which is provided by the next argument.
 
