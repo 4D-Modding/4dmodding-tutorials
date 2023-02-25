@@ -6,16 +6,16 @@ This is a tutorial for modding 4D Miner with the 4D Modding framework.
 ### Links:
  - [4D Modding web-page](https://gdpseditor.com/4dmodding/ "4D Modding web-page")
  - [4D Modding Discord](https://discord.gg/AmGKpYXBwX "Discord Server")
- - [4dm.h (modding headers/framework)](https://github.com/Tr1NgleDev/4dm.h "4dm.h (modding headers/framework)")
- - [4DMod-Example](https://github.com/Tr1NgleDev/4dmod-example "4DMod-Example")
- - [4DFly Mod Source-Code](https://github.com/Tr1NgleDev/4DFly "4DFly")
+ - [4dm.h (modding headers/framework)](https://github.com/4D-Modding/4dm.h "4dm.h (modding headers/framework)")
+ - [4DMod-Example](https://github.com/4D-Modding/4dmod-example "4DMod-Example")
+ - [4DFly Mod Source-Code](https://github.com/4D-Modding/4DFly "4DFly")
 ------------
 
 ### Basic Tutorial:
 
 #### Making a Mod Project:
 
-First, clone the [4DMod-Example](https://github.com/Tr1NgleDev/4dmod-example "4DMod-Example") project, or use it as repo template. (I recommend using Visual Studio 2022 for making mods).
+First, clone the [4DMod-Example](https://github.com/4D-Modding/4dmod-example "4DMod-Example") project, or use it as repo template. (I recommend using Visual Studio 2022 for making mods).
 
 Then, open `main.cpp`, where you can find some basic defines at start of the file.
 ```cpp
