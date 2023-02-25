@@ -19,7 +19,7 @@ First, clone the [4DMod-Example](https://github.com/Tr1NgleDev/4dmod-example "4D
 
 Then, open `main.cpp`, where you can find some basic defines at start of the file.
 ```cpp
-//#define DEBUG_CONSOLE // uncomment this if you want a debug console
+//#define DEBUG_CONSOLE // Uncomment this if you want a debug console
 
 // Mod Name. Make sure it matches the mod folder's name
 #define MOD_NAME "4DMod"
