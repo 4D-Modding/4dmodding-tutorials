@@ -15,7 +15,7 @@ This is a tutorial for modding 4D Miner with the 4D Modding framework.
 
 #### Making a Mod Project:
 
-First, clone the [4DMod-Example](https://github.com/Tr1NgleDev/4dmod-example "4DMod-Example") project (I recommend using Visual Studio 2022).
+First, clone (or use as repo template) the [4DMod-Example](https://github.com/Tr1NgleDev/4dmod-example "4DMod-Example") project (I recommend using Visual Studio 2022).
 
 Then, open `main.cpp`, where you can find some basic defines at start of the file.
 ```cpp
