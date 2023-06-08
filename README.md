@@ -38,11 +38,11 @@ To be exact, it uses the [MultiHook](https://github.com/m417z/minhook "MultiHook
 
 In the `Main_Thread` function there is already a basic example of hooking. For example, hooking the `Player::update()` function:
 ```cpp
-Hook(reinterpret_cast<void*>(base + idaOffsetFix(0x7EB40)), reinterpret_cast<void*>(&Player_update_H), reinterpret_cast<void**>(&Player_update));
+Hook(reinterpret_cast<void*>(FUNC_PLAYER_UPDATE), reinterpret_cast<void*>(&Player_update_H), reinterpret_cast<void**>(&Player_update));
 ```
 Let's look at the arguments...
 
-The first argument is the **address/offset** of the function in the game (or `target`). More info about **offsets** can be found [below](#obtaining-a-function-offset). The `target` argument is used to replace the function with our custom "`detour`" function, which is provided by the next argument.
+The first argument is the **address/offset** of the function in the game (or `target`). Since 4dm.h v0.1.4.1 Update, you can just do `FUNC_CLASS_NAME`. Which you can see in the example above. The `target` argument is used to replace the function with our custom "`detour`" function, which is provided by the next argument.
 
 The second argument is the **Hook Function** (or `detour`). It's a pointer to our custom function with *our own* code. This function supposed to have the same arguments as the original game function.
 
@@ -64,30 +64,4 @@ void __fastcall Player_update_H(Player* self, GLFWwindow* window, World* world, 
 (also make sure to change `_thiscall*` in `original` function to `_fastcall*` if the original function is static)
 
 ----
-
-### Obtaining a Function Offset
-
-You probably remember the `target` argument, which is the address/offset of a function in the game, right?
-
-So... how do you get one?
-
-Well first of all, you can to go into the `4dm.h` headers and find the offset you need, which is the easiest way.
-
-But what if the offset isn't there? (since 4dm.h is still in development and doesnt have everything)
-
-In that case, you need to use some kind of RE (Reverse Engineering) tool.
-
-For example: 
- - [IDA Pro](https://hex-rays.com/ida-pro/ "IDA Pro"). It isnt free. ~~But you can easily pirate it :trollface:~~
- 
- or
-
- - [Ghidra](https://github.com/NationalSecurityAgency/ghidra "Ghidra") which is free.
-
-Im not going to explain **how** to do this stuff. If you want, just google it lol.
-
-----
-
-There will be more tutorials later. But for now this is it.
-
 You can ask questions in [4D Modding Discord Server](https://discord.gg/AmGKpYXBwX "Discord Server"), if you have any.
