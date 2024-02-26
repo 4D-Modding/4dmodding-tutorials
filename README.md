@@ -1,94 +1,52 @@
-# 4D Modding: Basic Tutorials
-This is tutorials for modding 4D Miner with 4D Modding framework
+# 4D-Modding Basic Tutorials
+Some Basic Tutorials on modding 4D Miner using the 4D-Modding framework. This ONLY includes the basics, like installing 4DModLoader and creating a mod project.
 
 ------------
 
 ### Links:
- - [4D Modding web-page](https://gdpseditor.com/4dmodding/ "4D Modding web-page")
- - [4D Modding Discord](https://discord.gg/AmGKpYXBwX "Discord Server")
- - [4dm.h (modding headers/framework)](https://github.com/Tr1NgleDev/4dm.h "4dm.h (modding headers/framework)")
- - [4DMod-Example](https://github.com/Tr1NgleDev/4dmod-example "4DMod-Example")
- - [4DFly Mod Source-Code](https://github.com/Tr1NgleDev/4DFly "4DFly")
+ - [4D-Modding website](https://4dmodding.me/ "4D-Modding website")
+ - [4D-Modding Discord](https://discord.gg/AmGKpYXBwX "Discord Server")
+ - [4dm.h (the modding headers)](https://github.com/4D-Modding/4dm.h "4dm.h (the modding headers)")
+ - [4DMod Example](https://github.com/4D-Modding/4dmod-example "4DMod Example")
+ - [4D-Fly Mod Source-Code](https://github.com/4D-Modding/4DFly "4D-Fly")
+ 
 ------------
 
-### Basic Tutorial:
+## Where to begin?
 
-#### # Making mod project:
-First, Clone [4DMod-Example](https://github.com/Tr1NgleDev/4dmod-example "4DMod-Example") project. (I recomend using Visual Studio 2022)
+ First of all, you have to install 4DModLoader. For that you need to go to the [4D-Modding website](https://4dmodding.me/ "4D-Modding website") and download the 4DModLoader Installer.
 
-Then in the project you open `main.cpp`
+ After you have installed the 4DModLoader, you can install mods into the `./mods/` directory and play.
 
-There you can find some basic defines at start of file.
-```cpp
-//#define DEBUG_CONSOLE // Define that if you want debug console
+## How to create mods?
 
-// Mod Name. Make sure its same as mod's folder name
-#define MOD_NAME "4DMod"
-#define MOD_VER "1.0"
-```
-If you want to have debug console window to use `std::cout` or `printf`, you should define `DEBUG_CONSOLE`. Make sure to comment it before sharing the mod.
+ To write mods, you need to have at least some knowledge of C++ and how games work. You also require Visual Studio 2022 to actually build the code. (or you could use the GitHub Actions workflow I added recently, which will compile the mod .dll for you each time you push new changes to the repo)
 
-You can also see `MOD_NAME` and `MOD_VER` defines. They are used for 4DModding-Core to load mod and show it on list. You are supposed to change these defines to your mod name and version. Also when sharing and using the mod, mod folder is supposed to have the same name as `MOD_NAME` for the mod to work correctly.
+ To create mods, first, go to the [4DMod Example](https://github.com/4D-Modding/4dmod-example "4DMod Example") repo and use it as a template to create your own repo. Call it whatever you want your mod to be called. You can make the repo private or public (just normal GitHub stuff).
 
-### # Basics (Hooking):
-One of the main things to know is **Hooking**
+ After you have created a repo for your mod based on the [4DMod Example](https://github.com/4D-Modding/4dmod-example "4DMod Example"), you can `git clone --recursive` your mod repository.
+ In there you will find a `4DMod.sln` file. That's a Visual Studio 2022 project/solution file, which you will need to open.
 
-You need it to Hook into game functions and do stuff to game.
+ Once you have loaded into the project, first thing I would recomend you to do is to change the output .dll name. To do that you need to go to project's properties and change the `Target Name` property.
 
-4D Modding framework uses [MinHook library](https://github.com/TsudaKageyu/minhook "MinHook library") for hooking.
-To be exact, it uses [MultiHook](https://github.com/m417z/minhook "MultiHook") branch.
+ After that, you are ready to start coding the mod!
 
-In `Main_Thread` function there is already basic example of hooking.
-For example: Hooking `Player::update()` function
-```cpp
-Hook(reinterpret_cast<void*>(base + idaOffsetFix(0x7EB40)), reinterpret_cast<void*>(&Player_update_H), reinterpret_cast<void**>(&Player_update));
-```
-Lets look at arguments..
+ ### Hooking
 
-First argument is **address/offset** to function in the game (or `target`). There will me more info about **offsets** later. It uses `target` to replace it with our custom "`detour`" function.
+ *Hooking* is when you override one of the game functions to add your own code into it, either before or after the original code (or removing the original code completely)
 
-Which is the next argument. **Hook Function** (or `detour`). Its a pointer to our custom function with our own code. This function supposed to have same arguments as the original game function.
+ There are a few hooks by default in the 4DModExample `main.cpp`
+ You can either stick to those or remove them (tho do not remove the StateIntro::init() one. since it initializes some important stuff)
 
-Last argument is **Original Function** (or `original`). Its basically just a pointer to original game function that we replaced with `detour`. You can use it inside of the custom function to call original function after or before your code.
+ There are a few macros for creating hooks:
+  - `$hook(returnType, cl, function, ...)` Creates a hook to a member function (__thiscall). The one you are going to use most of the times.
+  - `$hookByFunc(returnType, className, func, ...)` A variation of the `$hook` macro. Instead of hooking function by `className::functionName` you directly pass it a value from `Func` namespace. Useful for cases when the class you are trying to hook is inside `_Nested`. I will try to get rid of this macro next update. But it is what it is now.
 
-Example of `detour` and `original` functions:
-```cpp
-// original function
-void(__thiscall* Player_update)(Player* self, GLFWwindow* window, World* world, double dt); 
+  For both of those you have a pointer called `self`, which basically plays the role of `this`
 
-// detour/hook function
-void __fastcall Player_update_H(Player* self, GLFWwindow* window, World* world, double dt) 
-{
-	// Your code that runs every frame here (it only calls when you play in world, because its Player's function)
+  - `$hookStatic(returnType, cl, function, ...)` Creates a hook to a static function (__fastcall).
+  - `$hookStaticByFunc(returnType, func, ...)` A variation of the `$hookStatic` macro. Instead of hooking function by `className::functionName` you directly pass it a value from `Func` namespace. Useful for cases when the class you are trying to hook is inside `_Nested`. I will try to get rid of this macro next update. But it is what it is now. 
 
-	Player_update(self, window, world, dt);
-}
-```
-(also make sure to change `_thiscall*` in `original` function to `_fastcall*` if the original function is static)
+  For all of those, to call the original function's code, you just call `original()`.
 
-----
-
-You probably remember `target` argument which is address/offset to a function in game, right?
-
-So... How do you get one?
-
-Well first of all you are able to go into `4dm.h` headers and find offset you need. Which is the easiest way.
-
-But what if there isnt one? (since 4dm.h is still in development and doesnt have everything)
-
-Then you need to use some kind of RE (Reverse Engineering) tool.
-
-For example: 
- - [IDA Pro](https://hex-rays.com/ida-pro/ "IDA Pro"). It isnt free. ~~But you can easily pirate it :trollface:~~
- 
- or
-
- - [Ghidra](https://github.com/NationalSecurityAgency/ghidra "Ghidra") which is free.
-
-Im not going to tell **how** to do this stuff. If you want, just google it lol.
-
-----
-
-There will be more tutorials later. But for now this is it.
-
-You can ask questions in [4D Modding Discord Server](https://discord.gg/AmGKpYXBwX "Discord Server"), if you have any.
+  For example, hooks check the 4DModExample hooks.
