@@ -49,4 +49,4 @@ Some Basic Tutorials on modding 4D Miner using the 4D-Modding framework. This ON
 
   For all of those, to call the original function's code, you just call `original()`.
 
-  For example, hooks check the 4DModExample hooks.
+  For example hooks, check the 4DModExample hooks.
