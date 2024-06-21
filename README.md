@@ -4,7 +4,7 @@ Some Basic Tutorials on modding 4D Miner using the 4D-Modding framework. This ON
 ------------
 
 ### Links:
- - [4D-Modding website](https://4dmodding.me/ "4D-Modding website")
+ - [4D-Modding website](https://www.4d-modding.com/ "4D-Modding website")
  - [4D-Modding Discord](https://discord.gg/AmGKpYXBwX "Discord Server")
  - [4dm.h (the modding headers)](https://github.com/4D-Modding/4dm.h "4dm.h (the modding headers)")
  - [4DMod Example](https://github.com/4D-Modding/4dmod-example "4DMod Example")
@@ -14,7 +14,7 @@ Some Basic Tutorials on modding 4D Miner using the 4D-Modding framework. This ON
 
 ## Where to begin?
 
- First of all, you have to install 4DModLoader. For that you need to go to the [4D-Modding website](https://4dmodding.me/ "4D-Modding website") and download the 4DModLoader Installer.
+ First of all, you have to install 4DModLoader. For that you need to go to the [4D-Modding website](https://www.4d-modding.com/ "4D-Modding website") and download the 4DModLoader Installer.
 
  After you have installed the 4DModLoader, you can install mods into the `./mods/` directory and play.
 
@@ -27,9 +27,7 @@ Some Basic Tutorials on modding 4D Miner using the 4D-Modding framework. This ON
  After you have created a repo for your mod based on the [4DMod Example](https://github.com/4D-Modding/4dmod-example "4DMod Example"), you can `git clone --recursive` your mod repository.
  In there you will find a `4DMod.sln` file. That's a Visual Studio 2022 project/solution file, which you will need to open.
 
- Once you have loaded into the project, first thing I would recomend you to do is to change the output .dll name. To do that you need to go to project's properties and change the `Target Name` property.
-
- After that, you are ready to start coding the mod!
+ And now you are ready to start coding the mod!
 
  ### Hooking
 
